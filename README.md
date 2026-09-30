@@ -1,14 +1,52 @@
 # RAG PDF Q&A
 
-A self-hosted Retrieval-Augmented Generation (RAG) system for answering questions from PDF documents using local AI models, OCR, and vector search. The project processes text, scanned pages, and table-heavy PDFs, then retrieves the most relevant chunks and generates grounded answers with page-level citations.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.9%2B-blue" alt="Python 3.9+" />
+  <img src="https://img.shields.io/badge/Streamlit-App-FF4B4B" alt="Streamlit App" />
+  <img src="https://img.shields.io/badge/Ollama-Local%20LLM-4A4A55" alt="Ollama" />
+  <img src="https://img.shields.io/badge/ChromaDB-Vector%20DB-6A5ACD" alt="ChromaDB" />
+</p>
 
-## Why this project matters
+A self-hosted Retrieval-Augmented Generation (RAG) application that lets users ask natural-language questions about PDF documents and receive grounded answers with citation-backed page references. The system supports regular PDFs, scanned documents, and table-heavy content while keeping the workflow fully local.
 
-- Works fully on your local machine
-- No paid API keys required for the main workflow
-- Supports text PDFs, scanned PDFs, and table extraction
-- Gives cited answers grounded in the source document
-- Provides both CLI and Streamlit web interfaces
+## Overview
+
+This project combines PDF extraction, OCR, table detection, chunking, vector search, and local LLM generation into a complete document Q&A pipeline. It is designed for privacy-focused document intelligence and can be used through a command-line interface or a Streamlit web app.
+
+## Key Features
+
+- Local-first PDF Q&A without paid API dependencies
+- Text extraction for standard PDFs
+- OCR support for scanned documents
+- Table detection and conversion to readable markdown-like structure
+- Chunk-based indexing for large documents
+- Semantic retrieval using embeddings and vector search
+- Hybrid retrieval support with BM25
+- Grounded answer generation using local LLMs
+- Page-level citations for answer traceability
+- CLI and browser-based interfaces
+
+## System Architecture
+
+```text
+PDF
+  ↓
+Page Classification
+  ↓
+Text Extraction / OCR
+  ↓
+Table Detection
+  ↓
+Chunking + Metadata
+  ↓
+Embedding + ChromaDB Storage
+  ↓
+Query Retrieval
+  ↓
+Local LLM Answer Generation
+  ↓
+Citations + Final Response
+```
 
 ## Tech Stack
 
@@ -21,32 +59,7 @@ A self-hosted Retrieval-Augmented Generation (RAG) system for answering question
 - pytesseract
 - Tesseract OCR
 
-## Project Architecture
-
-```text
-PDF → page classification
-  → text extraction or OCR
-  → table detection
-  → chunking
-  → embedding and vector storage
-  → retrieval
-  → local LLM generation
-  → citation-aware final answer
-```
-
-## Features
-
-- PDF ingestion and document indexing
-- Text extraction for normal PDFs
-- OCR for scanned documents
-- Table recognition and markdown conversion
-- Chunking with metadata for page-level context
-- Semantic retrieval using local embeddings
-- Hybrid search support with BM25
-- Grounded answer generation with source citations
-- CLI and browser-based UI
-
-## Repository Structure
+## Project Structure
 
 ```text
 rag_pdf_qa/
@@ -74,7 +87,8 @@ rag_pdf_qa/
 ├── data/
 │   ├── chroma_db/
 │   └── uploads/
-└── .gitignore
+├── .gitignore
+└── .venv/
 ```
 
 ## Setup Guide
@@ -104,7 +118,7 @@ macOS/Linux:
 source venv/bin/activate
 ```
 
-### 4) Install dependencies
+### 4) Install Python dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -112,35 +126,35 @@ pip install -r requirements.txt
 
 ### 5) Install Ollama
 
-Install Ollama from the official website and make sure the service is running.
+Install Ollama and make sure the local model engine is running.
 
-Check available models:
+Check installed models:
 
 ```bash
 ollama list
 ```
 
-If you need to start the service manually:
+If needed, start the service manually:
 
 ```bash
 ollama serve
 ```
 
-The project defaults to a local model configured in `config.py`.
+The default model is configured in `config.py`.
 
-### 6) Install Tesseract (required for scanned PDFs)
+### 6) Install Tesseract for OCR
 
 #### Windows
 Download and install Tesseract from:
 https://github.com/UB-Mannheim/tesseract/wiki
 
-Then verify:
+Verify it is installed:
 
 ```bash
 tesseract --version
 ```
 
-If needed, configure the path in `src/ocr.py`:
+If needed, set the Tesseract binary path in `src/ocr.py`:
 
 ```python
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
@@ -156,7 +170,7 @@ brew install tesseract
 sudo apt install tesseract-ocr
 ```
 
-## Run the Application
+## Run the Project
 
 ### Web interface
 
@@ -164,15 +178,15 @@ sudo apt install tesseract-ocr
 streamlit run app.py
 ```
 
-Then upload a PDF from the sidebar and ask a question in the chat box.
+Upload a PDF from the sidebar and ask questions in the chat box.
 
-### CLI ingestion
+### Ingest a PDF from the CLI
 
 ```bash
 python cli.py ingest "C:\path\to\your\document.pdf"
 ```
 
-### CLI question answering
+### Ask a question from the CLI
 
 ```bash
 python cli.py ask "What was the Q3 revenue?"
@@ -186,22 +200,21 @@ python cli.py chat
 
 ## Example Workflow
 
-1. Upload or ingest a PDF
-2. The system classifies pages and extracts text/OCR content
-3. Tables are detected and converted into structured text
-4. Chunks are embedded and stored in ChromaDB
-5. The user asks a question
-6. Relevant chunks are retrieved
-7. A local LLM generates a grounded answer with source citations
+1. Add a PDF to the project
+2. Classify pages and extract text/OCR content
+3. Detect and parse tables
+4. Chunk and embed the content in ChromaDB
+5. Retrieve relevant blocks for a user query
+6. Generate a grounded answer with citations
 
-## Notes and Limitations
+## Limitations
 
 - Scanned pages with tables can be difficult to reconstruct accurately
 - Borderless tables may not be detected reliably
-- The evaluation module is a lightweight check, not a full semantic judge
-- Performance depends on the model chosen in Ollama
+- The evaluation module is a lightweight quality check rather than a full semantic judge
+- Model quality depends on the Ollama model selected
 
 ## License
 
-This project is for educational and portfolio purposes.
+This project is intended for educational and portfolio use.
 
