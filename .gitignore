@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+.pytest_cache/
+*.pyc
+.venv/
+venv/
+
+# Project data (don't commit uploaded PDFs or the vector DB)
+data/uploads/*
+!data/uploads/.gitkeep
+data/chroma_db/*
+!data/chroma_db/.gitkeep
+
+# Env / secrets (none needed for this project, but just in case)
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+*.pem
+*.key
+*.p12
+credentials*.json
+secrets*.json
+
+# OS
+.DS_Store
+
+# Logs and local databases
+*.log
+*.sqlite
+*.sqlite3

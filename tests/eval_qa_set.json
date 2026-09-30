@@ -1,0 +1,12 @@
+[
+  {
+    "question": "REPLACE WITH A REAL QUESTION ABOUT YOUR PDF",
+    "expected_page": 1,
+    "expected_keywords": ["keyword1", "keyword2"]
+  },
+  {
+    "question": "ANOTHER EXAMPLE QUESTION",
+    "expected_page": 3,
+    "expected_keywords": ["expected fact"]
+  }
+]

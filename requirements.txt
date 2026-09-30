@@ -1,0 +1,15 @@
+# --- Modules 2-8: Core RAG loop (clean text PDFs) ---
+pdfplumber              # text extraction from clean PDFs + table detection
+sentence-transformers   # local embeddings (all-MiniLM-L6-v2)
+chromadb                # local vector store
+ollama                  # python client for local Ollama LLM
+tiktoken                # token counting for chunking
+
+# --- Module 9: OCR path ---
+pytesseract             # Python wrapper for Tesseract (Tesseract itself must be installed separately - see README)
+
+# --- Module 13: Hybrid search (stretch) ---
+rank_bm25
+
+# --- Module 12: Web UI ---
+streamlit
